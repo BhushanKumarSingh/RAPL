@@ -1,6 +1,6 @@
 <?php
 //include Configurations
-include '../config/db.php';
+include './config/db.php';
 
 //declare requred parameters & methods
 $_PARAMS = array(
