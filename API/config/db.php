@@ -27,7 +27,7 @@ setlocale(LC_MONETARY, 'en_US');
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 try {
-  $con = new mysqli("localhost","ritikaag_RAPL","RAPL@1234567890","ritikaag_RAPL");
+  $con = new mysqli("localhost","ritikaag_RAPLus","Luv4bakBUU9T","ritikaag_RAPL");
   $con->set_charset("utf8mb4");
 } catch(Exception $e) {
   error_log($e->getMessage());
