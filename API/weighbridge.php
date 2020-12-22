@@ -37,8 +37,9 @@ function execute_main()
                     values('".$slNo."','".$gatePassNo."','".$vehicleNo."','".$purchaseHub."',
                             '".$purchaseType."','".$grossWt."','".$tareWt."','".$wastage."','".$netWt."','".$imgUrl."')")){
         $returnArr = returnData('Save successfully', 200);
-        
+
     } else{
+      
         $returnArr = returnData('Something went wrong', 401);
     }
 
