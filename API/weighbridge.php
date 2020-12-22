@@ -14,8 +14,10 @@ $_PARAMS = array(
 );
 $_METHOD = 'POST';
 
+
 // Call API, init API calls execute_main()
-echo json_encode(init_api($_METHOD, $_DATA, $_PARAMS, $_ERROR = ''));
+echo json_encode(init_api($_METHOD,$_DATA,$_PARAMS,$_ERROR=''),JSON_UNESCAPED_SLASHES);
+
 
 // API Main
 /*-----------main()---------*/
@@ -39,7 +41,7 @@ function execute_main()
         $returnArr = returnData('Save successfully', 200);
 
     } else{
-      
+
         $returnArr = returnData('Something went wrong', 401);
     }
 
