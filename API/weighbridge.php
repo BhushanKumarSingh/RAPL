@@ -33,7 +33,9 @@ function execute_main()
   $netWt = $_DATA['netWt'];
   $imgUrl = $_DATA['imgUrl'];
 
-    if($con->query("INSERT into weighbridge(slno)values('".$slNo."')")){
+    if($con->query("INSERT into weighbridge(slno,gatepassno,vehicleno,purchasehub,purchasetype,grosswt,tarewt,wastage,netwt,imgUrl)
+                    values('".$slNo."','".$gatePassNo."','".$vehicleNo."','".$purchaseHub."',
+                            '".$purchaseType."','".$grossWt."','".$tareWt."','".$wastage."','".$netWt."','".$imgUrl."')")){
         $returnArr = returnData('Save successfully', 200);
     } else{
         $returnArr = returnData('Something went wrong', 401);
