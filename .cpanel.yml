@@ -2,4 +2,4 @@
 deployment:
       tasks:
         - export DEPLOYPATH=/home/ritikaag/public_html
-        - /bin/cp <file_name> $DEPLOYPATH
+        - /bin/cp C:/Users/ashis/OneDrive/Desktop/Projects/RAPL $DEPLOYPATH
