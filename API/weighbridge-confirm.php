@@ -38,9 +38,9 @@ function execute_main()
   $acnote_qty = $_DATA['acnote_qty'];
 
 
-    if($con->query("UPDATE weighbridge set slno = $slNo,gatepassno = '$gatePassNo' ,
-                      vehicleno = '$vehicleNo',purchasehub = '$purchaseHub',purchasetype = '$purchaseType',
-                      grosswt = '$grossWt',tarewt = '$tareWt',wastage = '$wastage',netwt = '$netWt',imgUrl = '$imgUrl', acnote_no = '$acnote_no' , acnote_qty ='$acnote_qty',status = 1 where id = $id")){
+    if($con->query("UPDATE weighbridge set slno = $slNo,gatepassno = '".$gatePassNo."' ,
+                      vehicleno = '".$vehicleNo."',purchasehub = '".$purchaseHub."',purchasetype = '".$purchaseType."',
+                      grosswt = '".$grossWt."',tarewt = '".$tareWt."',wastage = '".$wastage."',netwt = '".$netWt."',imgUrl = '".$imgUrl."', acnote_no = '".$acnote_no."' , acnote_qty ='".$acnote_qty."',status = 1 where id = $id")){
       $returnArr = returnData('Update successfully', 200);
     } else{
         $returnArr = returnData('Something went wrong', 401);
