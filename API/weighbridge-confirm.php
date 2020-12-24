@@ -25,7 +25,7 @@ function execute_main()
   $acnote_qty = $_DATA['acnote_qty'];
 
 
-    if($con->query("UPDATE weighbridge set acnote_no = '$acnote_no' , acnote_qty ='$acnote_qty' where id = $id")){
+    if($con->query("UPDATE weighbridge set acnote_no = '$acnote_no' , acnote_qty ='$acnote_qty',status = 1 where id = $id")){
       $returnArr = returnData('Update successfully', 200);
     } else{
         $returnArr = returnData('Something went wrong', 401);
