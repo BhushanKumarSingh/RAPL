@@ -33,7 +33,25 @@ function execute_main()
   $tareWt = $_DATA['tareWt'];
   $wastage = $_DATA['wastage'];
   $netWt = $_DATA['netWt'];
-  $imgUrl = $_DATA['imgUrl'];
+  $imgUrl = '';
+
+$upload_dir = '';
+$server_url = 'https://api.dailymoo.in/test';
+
+if($_FILES['avatar'])
+{
+    $avatar_name = $_FILES["avatar"]["name"];
+    $avatar_tmp_name = $_FILES["avatar"]["tmp_name"];
+
+        $random_name = rand(1000,1000000)."-".$avatar_name;
+        $upload_name = $upload_dir.strtolower($random_name);
+        $upload_name = preg_replace('/\s+/', '-', $upload_name);
+    
+        if(move_uploaded_file($avatar_tmp_name , $upload_name)) {
+          $imgUrl = $server_url."/".$upload_name;
+        }
+  }
+
 
     if($con->query("INSERT into weighbridge(slno,gatepassno,vehicleno,purchasehub,purchasetype,grosswt,tarewt,wastage,netwt,imgUrl,date,time)
                     values('".$slNo."','".$gatePassNo."','".$vehicleNo."','".$purchaseHub."',
