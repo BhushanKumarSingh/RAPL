@@ -12,7 +12,7 @@ $_PARAMS = array(
               'alphanumeric','alphanumeric', 'alphanumeric'],
   'maxLength' => ['8', '13', '255','255','255','255','255','255','255','255'],
 );
-$_METHOD = 'GET';
+$_METHOD = 'POST';
 
 
 // Call API, init API calls execute_main()
