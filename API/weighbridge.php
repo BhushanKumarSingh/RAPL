@@ -15,6 +15,9 @@ $_PARAMS = array(
 $_METHOD = 'POST';
 
 echo $_SERVER['REQUEST_METHOD'];
+var_dump($_POST);
+echo '*************************';
+var_dump($_GET);
 
 // Call API, init API calls execute_main()
 echo json_encode(init_api($_METHOD,$_DATA,$_PARAMS,$_ERROR=''),JSON_UNESCAPED_SLASHES);
