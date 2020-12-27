@@ -17,7 +17,7 @@ function execute_main(){
     while($data = $weighList->fetch_assoc()){
       array_push($weigh,$data);
     }
-    sendMailUser('kumarbhushansingh491@gmail.com', 'Bhushan Kumar Singh',date('Y-m-d').'RAPL_report',json_encode($weigh));
+    return sendMailUser('kumarbhushansingh491@gmail.com', 'Bhushan Kumar Singh',date('Y-m-d').'RAPL_report',json_encode($weigh));
 
     //$returnArr = returnData('Future Order Fetch Success', 200, array('low_credit' => $subscriptions,'timestamp'=>date('Y-m-d H:i:s')));
   //return $returnArr;
@@ -283,6 +283,12 @@ function sendMailUser($to,$toname,$reportname,$strJson){
       touch($strJsonFile);
       jsonToCsv($strJson,$strJsonFile);
 
+
+      $strJsonFile = 'file.csv';
+      chmod($strJsonFile, 0777);
+      file_put_contents($strJsonFile, $strJson);
+      return 'yes';
+
       // Attachments
       $mail->addAttachment($strJsonFile, $reportname.'.csv');    // Optional name
 
@@ -309,4 +315,4 @@ function sendMailUser($to,$toname,$reportname,$strJson){
       // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
   }
 }
-execute_main();
+echo execute_main();
