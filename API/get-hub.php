@@ -17,7 +17,12 @@ function execute_main()
 
   $hub = [];
   while($data = $hubDetails->fetch_assoc()){
-    array_push($hub[$data['purchase_hub']],$data['purchase_target']);
+    if(array_key_exists($data['purchase_hub'],$hub)){
+      array_push($hub[$data['purchase_hub']],$data['purchase_target']);
+    } else{
+      $hub[$data['purchase_hub']] = [];
+      array_push($hub[$data['purchase_hub']],$data['purchase_target']);
+    }
   }
   echo json_encode(array("ResponseCode"=>200,"ResponseMsg"=>"Hub data","response"=>$hub));
 }
