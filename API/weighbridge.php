@@ -6,11 +6,11 @@ include './config/db.php';
 $_PARAMS = array(
   'name' => ['gatePassNo','vehicleNo',
             'purchaseHub','purchaseType',
-            'tareWt','wastage','netWt','imgUrl'],
+            'tareWt','wastage','grossWt','imgUrl','purchaseTarget'],
   'type' => ['alphanumeric','alphanumeric',
              'alphanumeric','alphanumeric', 'alphanumeric',
-              'alphanumeric','alphanumeric', 'alphanumeric'],
-  'maxLength' => ['130', '255','255','255','255','255','255','255'],
+              'alphanumeric','alphanumeric', 'alphanumeric','alphanumeric'],
+  'maxLength' => ['130', '255','255','255','255','255','255','255','255'],
 );
 $_METHOD = 'GET';
 
@@ -29,10 +29,11 @@ function execute_main()
   $purchaseType = $_DATA['purchaseType'];
   $tareWt = (int)$_DATA['tareWt'];
   $wastage = (int)$_DATA['wastage'];
-  $netWt = (int)$_DATA['netWt'];
+  $grossWt = (int)$_DATA['grossWt'];
   $imgUrl = $_DATA['imgUrl'];
+  $purchase_target = $_DATA['purchaseTarget'];
 
-  $grossWt = $netWt - ($tareWt + $wastage);
+  $netWt = $grossWt - ($tareWt + $wastage);
 
 
 // $upload_dir = '';
@@ -53,9 +54,9 @@ function execute_main()
 //   }
 
 
-    if($con->query("INSERT into weighbridge(gatepassno,vehicleno,purchasehub,purchasetype,grosswt,tarewt,wastage,netwt,imgUrl,date,time)
+    if($con->query("INSERT into weighbridge(gatepassno,vehicleno,purchasehub,purchasetype,grosswt,tarewt,wastage,netwt,imgUrl,purchase_target,date,time)
                     values('".$gatePassNo."','".$vehicleNo."','".$purchaseHub."',
-                            '".$purchaseType."','".$grossWt."','".$tareWt."','".$wastage."','".$netWt."','".$imgUrl."','".date('Y-m-d')."','".date('H:i:s')."')")){
+                            '".$purchaseType."','".$grossWt."','".$tareWt."','".$wastage."','".$netWt."','".$imgUrl."','".$purchase_target."','".date('Y-m-d')."','".date('H:i:s')."')")){
         $returnArr = returnData('Save successfully', 200);
 
     } else{
