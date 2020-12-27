@@ -25,6 +25,15 @@ function execute_main(){
 
 
 function sendMailUser($to,$toname,$reportname,$strJson){
+  $strJsonFile=date('Y-m-d').'-'.time().'.csv';
+  // touch($strJsonFile);
+  // jsonToCsv($strJson,$strJsonFile);
+
+
+  $strJsonFile = 'file.csv';
+  chmod($strJsonFile, 0777);
+  file_put_contents($strJsonFile, $strJson);
+  return 'yes';
 
   global $_DATA, $con;
 
