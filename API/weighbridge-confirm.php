@@ -9,7 +9,7 @@ $_PARAMS = array(
             'purchaseHub','purchaseType',
             'tareWt','wastage','netWt','imgUrl','acnote_qty','acnote_no'],
   'type' => ['alphanumeric', 'alphanumeric','alphanumeric',
-             ,'alphanumeric', 'alphanumeric',
+             'alphanumeric', 'alphanumeric',
               'alphanumeric','alphanumeric', 'alphanumeric','alphanumeric', 'alphanumeric'],
   'maxLength' => [ '130','255','255','255','255','255','255','255','255','255'],
 );
