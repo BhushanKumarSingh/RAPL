@@ -7,10 +7,13 @@ function execute_main()
   global $_DATA, $con;
   $where = '';
   if(isset($_DATA['purchaseHub'])){
-    $where = "WHERE purchase_hub = ".$_DATA['purchaseHub'];
+    $purchaseHub = $_DATA['purchaseHub'];
+    $where = "WHERE purchase_hub = '$purchaseHub'";
+    $hubDetails = $con->query("SELECT * from hub ".$where."");
+  } else {
+    $hubDetails = $con->query("SELECT * from hub");
   }
 
-  $hubDetails = $con->query("SELECT * from hub ".$where."");
 
   $hub = [];
   while($data = $hubDetails->fetch_assoc()){
