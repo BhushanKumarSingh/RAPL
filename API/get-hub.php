@@ -17,7 +17,7 @@ function execute_main()
 
   $hub = [];
   while($data = $hubDetails->fetch_assoc()){
-    array_push($hub,$data);
+    array_push($hub[$data['purchase_hub']],$data['purchase_target']);
   }
   echo json_encode(array("ResponseCode"=>200,"ResponseMsg"=>"Hub data","response"=>$hub));
 }
