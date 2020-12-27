@@ -13,10 +13,35 @@ function execute_main(){
   global $_DATA, $con;
     $date = $_DATA['date'];
     $weighList = $con->query("SELECT slno As SL_NO , date as Date, vehicleno As Vehicle_No,purchasehub as PACS,acnote_no as AC_Note_No ,acnote_date as AC_Note_Date,acnote_bags as AC_Note_Bags,grosswt as Gross_Wt,tarewt as Tare_Wt, wastage as Wastage,netwt as Net_Wt from weighbridge");
-    $weigh = [];
+    $weigh = '';
+//     $data = '';
+// while( $row = mysql_fetch_assoc($queryRes)){
+// $row1 = array();
+// $row1[] = $row['country'];
+// $row1[] = $row['networkname'];
+// $row1[] = $row['mcc'];
+// $row1[] = $row['mnc'];
+// $row1[] = $row['clientprice'];
+// $row1[] = $row['currency'];
+// $data .= join("\t", $row1)."\n";
+// //$data= $first_name."\t";
+// //$data .= $row['originator']."\t";
+// }
+
+
     while($data = $weighList->fetch_assoc()){
-      array_push($weigh,$data);
+      $row1 = array();
+      $row1[] = $data['SL_NO'];
+      $row1[] = $data['Vehicle_No'];
+      $row1[] = $data['PACS'];
+      $row1[] = $data['AC_Note_No'];
+      $weigh .= join("\t", $row1)."\n";
+      // array_push($weigh,$data);
     }
+    $strJsonFile = 'example.xls';
+    chmod($strJsonFile, 777);
+    file_put_contents($strJsonFile, $weigh);
+    return 'yes';
     return sendMailUser('kumarbhushansingh491@gmail.com', 'Bhushan Kumar Singh',date('Y-m-d').'RAPL_report',json_encode($weigh));
 
     //$returnArr = returnData('Future Order Fetch Success', 200, array('low_credit' => $subscriptions,'timestamp'=>date('Y-m-d H:i:s')));
