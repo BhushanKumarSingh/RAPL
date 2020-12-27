@@ -11,15 +11,26 @@ require './simplexlsx/src/SimpleXLSXGen.php';
 function execute_main(){
   global $_DATA, $con;
   $BASE_URL ='https://ritikaagencies.in/API/';
-    if(isset($_DATA['date']))
-    $date = $_DATA['date'];
-    else
-    $date = date('Y-m-d');
+  if(isset($_GET['fromdate'])){
+    $fromdate=date('Y-m-d',strtotime($_GET['fromdate']));
+  } else {
+    $fromdate=date('Y-m-d');
+  }
+
+  if(isset($_GET['todate'])){
+    $todate=date('Y-m-d',strtotime($_GET['todate']));
+  } else {
+    $todate=date('Y-m-d');
+  }
+
+
+  $where = "WHERE (date BETWEEN '".$fromdate."' and '".$todate."')";
+
     $weighList = $con->query("SELECT slno As SL_NO , date as Date, vehicleno As Vehicle_No,
                               purchasehub as PACS,acnote_no as AC_Note_No ,
                               acnote_date as AC_Note_Date,acnote_bags as AC_Note_Bags,
                               grosswt as Gross_Wt,tarewt as Tare_Wt,
-                              wastage as Wastage,netwt as Net_Wt from weighbridge where date = '".$date."'");
+                              wastage as Wastage,netwt as Net_Wt from weighbridge ".$where." ");
     $weigh = [];
 $temp = ['SL_NO', 'Vehicle_No', 'PACS', 'AC_Note_No','AC_Note_Date','AC_Note_Bags','Gross_Wt','Tare_Wt','Wastage','Net_Wt'];
 array_push($weigh,$temp);
