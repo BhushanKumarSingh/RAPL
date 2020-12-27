@@ -35,6 +35,7 @@ array_push($weigh,$temp);
       $row1[] = $data['Net_Wt'];
       array_push($weigh,$row1);
     }
+    echo json_encode($weigh);
   $xlsx = SimpleXLSXGen::fromArray( $weigh );
   $xlsx->saveAs(date('Y-m-d').'.'.'xlsx');
 
