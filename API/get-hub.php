@@ -19,7 +19,6 @@ function execute_main()
   while($data = $hubDetails->fetch_assoc()){
     array_push($hub,$data);
   }
-  $returnArr = returnData('Hub data', 200,$hub);
-  return $returnArr;
+  echo json_encode(array("ResponseCode"=>200,"ResponseMsg"=>"Hub data","response"=>$hub));
 }
 execute_main();
