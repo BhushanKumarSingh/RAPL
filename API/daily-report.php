@@ -1,106 +1,25 @@
 <?php
 //include Configurations
-require '../library/phpmailer/autoload.php';
+require './library/phpmailer/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../library/jsontocsv.php';
-include 'appconfig/db.php';
-
-//declare requred parameters & methods
-$_PARAMS = array(
-  'name' => ['date'],
-  'type' => ['alphanumeric'],
-  'maxLength' => ['8'],
-);
-$_METHOD = 'GET';
-
-// Call API, init API calls execute_main()
-init_api($_METHOD, $_DATA, $_PARAMS, $_ERROR = '');
+require './library/jsontocsv.php';
+include './config/db.php';
 
 // API Main
 /*-----------main()---------*/
 function execute_main(){
-  global $_DATA, $con; $subscriptions=[];
-  //check if access_token provided is valid
-  if(isset($_DATA['date']) and $_DATA['date']>date('Y-m-d')) {
-    //subscription active for tomorrow but low balance
-    $subscriptionDetails = $con->query("SELECT
-      ms.id as oid,
-      mp.id as pid,mp.name as product,mp.price as price,
-      sp.pid,sp.quantity as quantity,sc.quantity as cquantity, sp.frequency as frequency,sp.".strtolower(date('D',strtotime($_DATA['date']))).", (ABS(DATEDIFF(ms.startdate,'".$_DATA['date']."'))%SUBSTRING(sp.frequency,19,1)) as datedif,
-      mc.id as cid,mc.name as customer,mc.cno,mc.balance as wallet_balance,mc.ltamount as last_transaction_amount,ltdatetime as last_transaction_date,
-      ca.id as adid, ca.longitude as longitude, ca.latitude as latitude,
-      CONCAT(ca.label,' - ',ca.landmark,', ',ca.address,', ',ca.subarea,', ',ca.area,', ',ca.region) as address,
-      ca.rid as rid,mr.name as rider,mh.id as hid,mh.name as hub,
-      ms.status as status,
-      ms.startdate as startdate,ms.stopdate as stopdate,ms.pausedate as pausedate,ms.resumedate as resumedate
-  FROM
-      master_subscription ms,
-      subscription_product sp LEFT OUTER JOIN subscription_change sc on (sp.sid=sc.sid and sp.pid=sc.pid and sc.startdate=DATE_FORMAT('".$_DATA['date']."', '%Y-%m-%d')),
-      master_product mp,
-      master_rider mr,
-      master_hub mh,
-      master_customer mc,
-      customer_address ca
-  WHERE
-      (ms.id=sp.sid and sp.pid=mp.id and ms.rid=mr.id and mh.id=mr.hid and ms.cid=mc.id and ms.adid=ca.id)
-      AND    (ms.status ='Active' and ((sp.".strtolower(date('D',strtotime($_DATA['date'])))." is NOT NULL and sp.".strtolower(date('D',strtotime($_DATA['date']))).">0) or (sp.quantity is NOT NULL and sp.quantity>0)))
-      AND    (ms.startdate<=DATE_FORMAT('".$_DATA['date']."', '%Y-%m-%d'))
-      AND    (ms.stopdate is NULL or ms.stopdate IN ('') or ms.stopdate>=DATE_FORMAT('".$_DATA['date']."', '%Y-%m-%d'))
-      AND    (ms.resumedate is NULL or ms.resumedate IN ('') or ms.resumedate<=DATE_FORMAT('".$_DATA['date']."', '%Y-%m-%d'))
-      AND    ((ABS(DATEDIFF(ms.startdate,'".$_DATA['date']."'))%SUBSTRING(sp.frequency,19,1)) IS NULL OR (ABS(DATEDIFF(ms.startdate,'".$_DATA['date']."'))%SUBSTRING(sp.frequency,19,1)) = 0)
-      AND    ((sp.frequency='One-Time' and ms.startdate='".$_DATA['date']."') OR sp.frequency NOT IN ('One-Time'))
-      ");
-    while ($subscription = $subscriptionDetails->fetch_assoc()) {
-
-      if ($subscription['frequency']=='Customize') {
-        $subscription['quantity']=$subscription[strtolower(date("D",strtotime($_DATA['date'])))];
-      }
-      if ($subscription['cquantity']=='NULL' or $subscription['cquantity']==NULL) {} else {
-        $subscription['quantity']=$subscription['cquantity'];
-      }
-      if ($subscription['quantity']) {
-        $product = [];
-        $product['name'] = $subscription['product'];
-        $product['quantity'] = $subscription['quantity'];
-        $product['price'] = $subscription['price'];
-
-        $amount=$subscription['price']*$subscription['quantity'];
-
-        unset($subscription['product']);
-        unset($subscription['quantity']);
-        unset($subscription['price']);
-
-        if (array_key_exists($subscription['cid'],$subscriptions)){
-          $subscriptions[$subscription['cid']]['amount']+=$amount;
-          array_push($subscriptions[$subscription['cid']]['product'],$product);
-        } else {
-          $subscription['amount'] = $amount;
-
-          $subscription['product'] = [];
-          array_push($subscription['product'],$product);
-
-          $subscriptions[$subscription['cid']] = $subscription;
-        }
-      }
+  global $_DATA, $con;
+    $date = $_DATA['date'];
+    $weighList = $con->query("SELECT slno As SL_NO , date as Date, vehicleno As Vehicle_No,purchasehub as PACS,acnote_no as AC_Note_No ,acnote_date as AC_Note_Date,acnote_bags as AC_Note_Bags,grosswt as Gross_Wt,tarewt as Tare_Wt, wastage as Wastage,netwt as Net_Wt ");
+    $weigh = [];
+    while($data = $weighList->fetch_assoc()){
+      array_push($weigh,$data);
     }
-
-    foreach ($subscriptions as $cid => $subscription) {
-      if ((int)$subscription['amount']<(int)$subscription['wallet_balance']) {
-        unset($subscriptions[$cid]);
-      } else {
-        unset($subscriptions[$cid]['product']);
-        $subscriptions[$cid]['order_value']=$subscriptions[$cid]['amount'];
-        $subscriptions[$cid]=array_keys_set($subscriptions[$cid],['customer','address','cno','wallet_balance','order_value','rider','hub','status','last_transaction_date']);
-      }
-    }
-    sendMailUser('biswabijaya.samal@milkmantra.com', 'Biswabijaya Samal',date('Y-m-d').'_new_dailymoo_low_credit_report',json_encode($subscriptions));
+    sendMailUser('kumarbhushansingh491@gmail.com', 'Bhushan Kumar Singh',date('Y-m-d').'RAPL_report',json_encode($weigh));
 
     //$returnArr = returnData('Future Order Fetch Success', 200, array('low_credit' => $subscriptions,'timestamp'=>date('Y-m-d H:i:s')));
-  } else {
-    //$returnArr = returnData('Fetch Not Success', 401, );
-  }
   //return $returnArr;
 }
 
@@ -109,8 +28,8 @@ function sendMailUser($to,$toname,$reportname,$strJson){
 
   global $_DATA, $con;
 
-  $subject = 'Low Credit Report | '.date('Y-m-d');
-  $from = 'reports@dailymoo.online';
+  $subject = 'Report | '.date('Y-m-d');
+  $from = 'kumarbhushansingh491@gmail.com';
 
   // To send HTML mail, the Content-type header must be set
   $headers  = 'MIME-Version: 1.0' . "\r\n";
@@ -342,7 +261,7 @@ function sendMailUser($to,$toname,$reportname,$strJson){
       //Server settings
       $mail->SMTPDebug = 0;
       $mail->isSMTP();                                            // Send using SMTP
-      $mail->Host       = 'smtp.hostinger.in';                    // Set the SMTP server to send through
+      $mail->Host       = 'smtp.hostsoch.in';                    // Set the SMTP server to send through
       $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
       $mail->Username   = $from;                     // SMTP username
       $mail->Password   = 'nji9MKO)';                               // SMTP password
@@ -356,16 +275,11 @@ function sendMailUser($to,$toname,$reportname,$strJson){
         	)
     		);
       //Recipients
-      $mail->setFrom($from, 'Reports | Dailymoo');
+      $mail->setFrom($from, 'Reports | RAPL');
       $mail->addAddress($to, $toname);     // Add a recipient
-      $mail->AddCC('sachin.bishwakarma@milkmantra.com', 'Sachin Bishwakarma');
-      // $mail->AddCC('amrit.visa@milkmantra.com', 'Amrit Visa');
-      // $mail->AddCC('ashish.patra@milkmantra.com', 'Ashish Patra');
-      $mail->AddCC('cc.milkmantra@gmail.com', 'Milkmantra Call Center');
+      $mail->AddCC('kumarbhushansingh491@gmail.com', 'Bhushan Kumar Singh');
 
-      $mail->addBCC('ea.md@milkmantra.com');
-
-      $strJsonFile='./output'.'/'.getToken(8).'-'.time().'.csv';
+      $strJsonFile='./output'.'/'.date('Y-m-d').'-'.time().'.csv';
       touch($strJsonFile);
       jsonToCsv($strJson,$strJsonFile);
 
@@ -395,3 +309,4 @@ function sendMailUser($to,$toname,$reportname,$strJson){
       // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
   }
 }
+execute_main();
