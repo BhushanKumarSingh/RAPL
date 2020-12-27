@@ -30,8 +30,8 @@ function sendMailUser($to,$toname,$reportname,$strJson){
   // jsonToCsv($strJson,$strJsonFile);
 
 
-  $strJsonFile = 'file.csv';
-  chmod($strJsonFile, 0777);
+  $strJsonFile = 'example.xls';
+  chmod($strJsonFile, 777);
   file_put_contents($strJsonFile, $strJson);
   return 'yes';
 
