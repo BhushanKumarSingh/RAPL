@@ -36,8 +36,10 @@ array_push($weigh,$temp);
       array_push($weigh,$row1);
     }
     echo json_encode($weigh);
-    if(file_exists(date('Y-m-d').'.'.'xlsx'))
+    if(file_exists(date('Y-m-d').'.'.'xlsx')){
     unlink(date('Y-m-d').'.'.'xlsx'); 
+    echo 'no';
+    }
   $xlsx = SimpleXLSXGen::fromArray( $weigh );
   $xlsx->saveAs(date('Y-m-d').'.'.'xlsx');
 
