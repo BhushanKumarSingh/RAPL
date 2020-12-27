@@ -35,7 +35,7 @@ function execute_main()
 
 
 
-    if($con->query("UPDATE weighbridge set  gatepassno = '".$gatePassNo."',vehicleno = '".$vehicleNo."',purchasehub = '".$purchaseHub."',purchasetype = '".$purchaseType."',grosswt = '".$grossWt."',tarewt = '".$tareWt."',wastage = '".$wastage."',netwt = '".$netWt."',imgUrl = '".$imgUrl."', acnote_no = '".$acnote_no."' , acnote_qty ='".$acnote_qty."',status = 1 where id = $slNo")){
+    if($con->query("UPDATE weighbridge set  gatepassno = '".$gatePassNo."',vehicleno = '".$vehicleNo."',purchasehub = '".$purchaseHub."',purchasetype = '".$purchaseType."',grosswt = '".$grossWt."',tarewt = '".$tareWt."',wastage = '".$wastage."',netwt = '".$netWt."',imgUrl = '".$imgUrl."', acnote_no = '".$acnote_no."' , acnote_qty ='".$acnote_qty."',status = 1 where slno = $slNo")){
       $returnArr = returnData('Update successfully', 200);
     } else{
         $returnArr = returnData('Something went wrong', 401);
