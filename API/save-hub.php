@@ -18,7 +18,7 @@ function execute_main()
   $purchase_hub = $_DATA['purchaseHub'];
   $purchase_target = $_DATA['purchaseTarget'];
 
-    if($con->query("INSERT into weighbridge(purchase_hub,purchase_target)values('".$purchase_hub."','".$purchase_target."')")){
+    if($con->query("INSERT into hub(purchase_hub,purchase_target)values('".$purchase_hub."','".$purchase_target."')")){
         $returnArr = returnData('Save successfully', 200);
     } else{
         $returnArr = returnData('Something went wrong', 401);
