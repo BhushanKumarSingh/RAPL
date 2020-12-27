@@ -35,6 +35,7 @@ array_push($weigh,$temp);
       $row1[] = $data['Net_Wt'];
       array_push($weigh,$row1);
     }
+    unlink("2020-12-27.xlsx");
   $xlsx = SimpleXLSXGen::fromArray( $weigh );
   $xlsx->saveAs(time().'.'.'xlsx');
 
