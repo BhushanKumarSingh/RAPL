@@ -6,6 +6,8 @@ use PHPMailer\PHPMailer\Exception;
 
 require './library/jsontocsv.php';
 include './config/db.php';
+require './simplexlsx/src/SimpleXLSXGen.php';
+
 
 // API Main
 /*-----------main()---------*/
@@ -13,7 +15,7 @@ function execute_main(){
   global $_DATA, $con;
     $date = $_DATA['date'];
     $weighList = $con->query("SELECT slno As SL_NO , date as Date, vehicleno As Vehicle_No,purchasehub as PACS,acnote_no as AC_Note_No ,acnote_date as AC_Note_Date,acnote_bags as AC_Note_Bags,grosswt as Gross_Wt,tarewt as Tare_Wt, wastage as Wastage,netwt as Net_Wt from weighbridge");
-    $weigh = '';
+    $weigh = [];
 //     $data = '';
 // while( $row = mysql_fetch_assoc($queryRes)){
 // $row1 = array();
@@ -28,6 +30,8 @@ function execute_main(){
 // //$data .= $row['originator']."\t";
 // }
 
+$temp = ['SL_NO', 'Vehicle_No', 'PACS', 'AC_Note_No'];
+array_push($weigh,$temp);
 
     while($data = $weighList->fetch_assoc()){
       $row1 = array();
@@ -35,13 +39,16 @@ function execute_main(){
       $row1[] = $data['Vehicle_No'];
       $row1[] = $data['PACS'];
       $row1[] = $data['AC_Note_No'];
-      $weigh .= join("\t", $row1)."\n";
-      // array_push($weigh,$data);
+      // $weigh .= join("\t", $row1)."\n";
+      array_push($weigh,$row1);
     }
-    $strJsonFile = 'example.xls';
-    chmod($strJsonFile, 777);
-    file_put_contents($strJsonFile, $weigh);
-    return 'yes';
+    // $strJsonFile = 'example.xls';
+    // chmod($strJsonFile, 777);
+    // file_put_contents($strJsonFile, $weigh);
+    // return 'yes';
+
+  $xlsx = SimpleXLSXGen::fromArray( $weigh );
+  $xlsx->saveAs('books.xlsx');
     return sendMailUser('kumarbhushansingh491@gmail.com', 'Bhushan Kumar Singh',date('Y-m-d').'RAPL_report',json_encode($weigh));
 
     //$returnArr = returnData('Future Order Fetch Success', 200, array('low_credit' => $subscriptions,'timestamp'=>date('Y-m-d H:i:s')));
