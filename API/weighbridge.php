@@ -27,9 +27,9 @@ function execute_main()
   $vehicleNo = $_DATA['vehicleNo'];
   $purchaseHub = $_DATA['purchaseHub'];
   $purchaseType = $_DATA['purchaseType'];
-  $tareWt = (int)$_DATA['tareWt'];
-  $wastage = (int)$_DATA['wastage'];
-  $grossWt = (int)$_DATA['grossWt'];
+  $tareWt = (float)$_DATA['tareWt'];
+  $wastage = (float)$_DATA['wastage'];
+  $grossWt = (float)$_DATA['grossWt'];
   $imgUrl = $_DATA['imgUrl'];
   $purchase_target = $_DATA['purchaseTarget'];
 
