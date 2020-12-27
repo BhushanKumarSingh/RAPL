@@ -37,7 +37,7 @@ array_push($weigh,$temp);
     }
     echo json_encode($weigh);
   $xlsx = SimpleXLSXGen::fromArray( $weigh );
-  $xlsx->saveAs(date('Y-m-d').'.'.'xlsx');
+  $xlsx->saveAs(date('Y-m-d').date('H:i:s').'.'.'xlsx');
 
   return 'yes';
 }
