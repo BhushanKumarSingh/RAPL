@@ -38,6 +38,7 @@ array_push($weigh,$temp);
       $row1[] = $data['Net_Wt'];
       array_push($weigh,$row1);
     }
+    echo json_encode($weigh);
     $reportName = 'assets/'.time().'.'.'xlsx';
   $xlsx = SimpleXLSXGen::fromArray( $weigh );
   $xlsx->saveAs($reportName);
