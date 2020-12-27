@@ -36,7 +36,7 @@ array_push($weigh,$temp);
       array_push($weigh,$row1);
     }
   $xlsx = SimpleXLSXGen::fromArray( $weigh );
-  $xlsx->saveAs('assets/'.date('Y-m-d').'.'.'xlsx');
+  $xlsx->saveAs('/assets/'.date('Y-m-d').'.'.'xlsx');
 
   return 'yes';
 }
