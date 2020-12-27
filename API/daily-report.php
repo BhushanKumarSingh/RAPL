@@ -19,7 +19,7 @@ function execute_main(){
                               purchasehub as PACS,acnote_no as AC_Note_No ,
                               acnote_date as AC_Note_Date,acnote_bags as AC_Note_Bags,
                               grosswt as Gross_Wt,tarewt as Tare_Wt,
-                              wastage as Wastage,netwt as Net_Wt from weighbridge where date = '.$date.'");
+                              wastage as Wastage,netwt as Net_Wt from weighbridge where date = '".$date."'");
     $weigh = [];
 $temp = ['SL_NO', 'Vehicle_No', 'PACS', 'AC_Note_No','AC_Note_Date','AC_Note_Bags','Gross_Wt','Tare_Wt','Wastage','Net_Wt'];
 array_push($weigh,$temp);
