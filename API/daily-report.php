@@ -49,6 +49,7 @@ array_push($weigh,$temp);
 
   $xlsx = SimpleXLSXGen::fromArray( $weigh );
   $xlsx->saveAs('books.xlsx');
+  return 'no';
     return sendMailUser('kumarbhushansingh491@gmail.com', 'Bhushan Kumar Singh',date('Y-m-d').'RAPL_report',json_encode($weigh));
 
     //$returnArr = returnData('Future Order Fetch Success', 200, array('low_credit' => $subscriptions,'timestamp'=>date('Y-m-d H:i:s')));
