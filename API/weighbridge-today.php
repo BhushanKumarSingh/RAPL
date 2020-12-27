@@ -36,7 +36,7 @@ function execute_main()
   $where = "WHERE (date BETWEEN '".$fromdate."' and '".$todate."')";
 
   $date = $_DATA['date'];
-  $weighList = $con->query("SELECT * from weighbridge where ".$where."");
+  $weighList = $con->query("SELECT * from weighbridge ".$where."");
   $weigh = [];
   while($data = $weighList->fetch_assoc()){
     array_push($weigh,$data);
