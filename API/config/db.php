@@ -3,13 +3,14 @@ if(!isset($_SESSION)) { session_start(); }
 
 
 // Allow from any origin
-if (isset($_SERVER['HTTP_ORIGIN'])) {
-    // should do a check here to match $_SERVER['HTTP_ORIGIN'] to a
-    // whitelist of safe domains
-    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-    header('Access-Control-Allow-Credentials: true');
-    header('Access-Control-Max-Age: 86400');    // cache for 1 day
-}
+// if (isset($_SERVER['HTTP_ORIGIN'])) {
+//     // should do a check here to match $_SERVER['HTTP_ORIGIN'] to a
+//     // whitelist of safe domains
+//     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+//     header('Access-Control-Allow-Credentials: true');
+//     header('Access-Control-Max-Age: 86400');    // cache for 1 day
+// }
+header("Access-Control-Allow-Origin: *");
 // Access-Control headers are received during OPTIONS requests
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
