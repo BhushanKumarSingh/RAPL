@@ -1,6 +1,7 @@
 <?php
 //include Configurations
 include './config/db.php';
+header("Access-Control-Allow-Origin: *");
 
 function execute_main()
 {
