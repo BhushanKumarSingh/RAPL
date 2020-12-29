@@ -27,7 +27,7 @@ function execute_main(){
 
   $where = "WHERE (timestamp BETWEEN '".$fromdate."' and '".$todate."')";
 
-    $weighList = $con->query("SELECT slno As SL_NO , date as Date, vehicleno As Vehicle_No,
+    $weighList = $con->query("SELECT slno As SL_NO , timestamp as Datetime, vehicleno As Vehicle_No,
                               purchasehub as PACS,acnote_no as AC_Note_No ,
                               acnote_date as AC_Note_Date,acnote_bags as AC_Note_Bags,
                               grosswt as Gross_Wt,tarewt as Tare_Wt,
