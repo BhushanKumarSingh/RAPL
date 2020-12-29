@@ -54,9 +54,9 @@ function execute_main()
 //   }
 
 
-    if($con->query("INSERT into weighbridge(gatepassno,vehicleno,purchasehub,purchasetype,grosswt,tarewt,wastage,netwt,imgUrl,purchase_target,date,time)
+    if($con->query("INSERT into weighbridge(gatepassno,vehicleno,purchasehub,purchasetype,grosswt,tarewt,wastage,netwt,imgUrl,purchase_target,timestamp)
                     values('".$gatePassNo."','".$vehicleNo."','".$purchaseHub."',
-                            '".$purchaseType."','".$grossWt."','".$tareWt."','".$wastage."','".$netWt."','".$imgUrl."','".$purchase_target."','".date('Y-m-d')."','".date('H:i:s')."')")){
+                            '".$purchaseType."','".$grossWt."','".$tareWt."','".$wastage."','".$netWt."','".$imgUrl."','".$purchase_target."','".date('Y-m-d H:i:s')."')")){
         $returnArr = returnData('Save successfully', 200);
 
     } else{
