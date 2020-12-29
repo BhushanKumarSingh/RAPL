@@ -7,9 +7,5 @@ RewriteRule ^ %{REQUEST_URI}.php [NC,L]
 
 php date_default_timezone_set("Asia/Calcutta")
 
-<FilesMatch "\.(json)$">
-  <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
-    Header set Access-Control-Allow-Headers "origin, x-requested-with, content-type"
-  </IfModule>
-</FilesMatch>
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Headers "origin, x-requested-with, content-type"
