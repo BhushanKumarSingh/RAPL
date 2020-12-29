@@ -33,7 +33,7 @@ function execute_main()
   }
 
 
-  $where = "WHERE (date BETWEEN '".$fromdate."' and '".$todate."')";
+  $where = "WHERE (timestamp BETWEEN '".$fromdate."' and '".$todate."')";
 
   $date = $_DATA['date'];
   $weighList = $con->query("SELECT *  from weighbridge ".$where."");
