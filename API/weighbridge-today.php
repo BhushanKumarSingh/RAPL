@@ -31,6 +31,7 @@ function execute_main()
   } else {
     $todate=date('Y-m-d');
   }
+  $todate = $todate.' '.'23:59:00';
 
 
   $where = "WHERE (timestamp BETWEEN '".$fromdate."' and '".$todate."')";
